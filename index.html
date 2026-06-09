@@ -949,52 +949,36 @@
 
         // --- Live feed cache (localStorage, shared across reloads & tabs) ---
         // A short TTL means repeated visits/refreshes reuse the last result
-        // instead of issuing a fresh grounded request to the data provider.
-        const FEED_CACHE_KEY = "wc2026_feed_v1";
-        const FEED_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
-
-        // Live-sync credential. Empty by default: the app ships with no client-side
-        // key, so it makes ZERO network calls and serves the built-in schedule.
-        // Wire a key (ideally via a server-side proxy) to enable live syncing.
-        const GEMINI_API_KEY = "";
+        // instead of re-hitting the feed endpoint on every load.
+        const FEED_CACHE_KEY = "wc2026_feed_v2";
+        const FEED_CACHE_TTL = 60 * 1000; // 60 seconds
+        const FEED_ENDPOINT = "/api/feed";
 
         function loadFeedCache() {
             try {
                 const cached = JSON.parse(localStorage.getItem(FEED_CACHE_KEY));
-                if (!cached || !Array.isArray(cached.matches) || !cached.timestamp) return null;
+                if (!cached || !cached.timestamp || !cached.feed || !Array.isArray(cached.feed.matches)) return null;
                 if (Date.now() - cached.timestamp > FEED_CACHE_TTL) return null; // stale
-                return cached.matches;
+                return cached.feed;
             } catch {
                 return null;
             }
         }
 
-        function saveFeedCache(matchesData) {
+        function saveFeedCache(feed) {
             try {
-                localStorage.setItem(FEED_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), matches: matchesData }));
+                localStorage.setItem(FEED_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), feed }));
             } catch { /* storage unavailable — fall back to in-memory only */ }
         }
 
         let syncInFlight = false;
 
         async function triggerAISync() {
-            // Serve fresh cache without touching the network — the main guard
-            // against hammering the provider on every page load or extra tab.
+            // Serve fresh cache without touching the network — guards the feed
+            // endpoint against being re-hit on every reload or extra tab.
             const cached = loadFeedCache();
             if (cached) {
-                matches = cached;
-                recalculateStandings();
-                renderMatches();
-                renderStandings();
-                return;
-            }
-
-            // No key configured → never touch the network. The built-in schedule
-            // stands in, so an unconfigured deployment makes zero API calls.
-            if (!GEMINI_API_KEY) {
-                recalculateStandings();
-                renderMatches();
-                renderStandings();
+                applyFeed(cached);
                 return;
             }
 
@@ -1002,82 +986,20 @@
             if (syncInFlight) return;
             syncInFlight = true;
 
-            const userQuery = "Today is Tuesday, June 9, 2026. Retrieve the active live status, live scores, results, and upcoming schedules of the 2026 FIFA World Cup. Provide real-time data if games are currently live or have finished. Return the information matching the requested JSON schema.";
-            
-            const payload = {
-                "contents": [{ "parts": [{ "text": userQuery }] }],
-                "systemInstruction": {
-                    "parts": [{ "text": "You are the central live data feeder for the FIFA World Cup 2026. Search Google for real-time live scores, upcoming matches, group standings, and latest tournament news. You must output valid JSON complying strictly with the requested schema." }]
-                },
-                "tools": [{ "google_search": {} }],
-                "generationConfig": {
-                    "responseMimeType": "application/json",
-                    "responseSchema": {
-                        "type": "OBJECT",
-                        "properties": {
-                            "tournamentStatus": { "type": "STRING" },
-                            "matches": {
-                                "type": "ARRAY",
-                                "items": {
-                                    "type": "OBJECT",
-                                    "properties": {
-                                        "id": { "type": "STRING" },
-                                        "homeTeam": { "type": "STRING" },
-                                        "homeFlag": { "type": "STRING" },
-                                        "awayTeam": { "type": "STRING" },
-                                        "awayFlag": { "type": "STRING" },
-                                        "homeScore": { "type": "STRING" },
-                                        "awayScore": { "type": "STRING" },
-                                        "matchDate": { "type": "STRING" },
-                                        "matchTime": { "type": "STRING" },
-                                        "venue": { "type": "STRING" },
-                                        "group": { "type": "STRING" },
-                                        "status": { "type": "STRING" }, // "Scheduled", "Live", "FT"
-                                        "minute": { "type": "STRING" },
-                                        "stream": { "type": "STRING" }
-                                    },
-                                    "required": ["homeTeam", "awayTeam", "matchDate", "status"]
-                                }
-                            }
-                        },
-                        "required": ["tournamentStatus", "matches"]
-                    }
-                }
-            };
-
             try {
-                const result = await callGeminiWithBackoff(payload);
-                
-                if (result && result.candidates?.[0]?.content?.parts?.[0]?.text) {
-                    const parsedData = JSON.parse(result.candidates[0].content.parts[0].text);
-                    
-                    if (parsedData.matches && parsedData.matches.length > 0) {
-                        matches = parsedData.matches.map((apiMatch, index) => {
-                            return {
-                                id: apiMatch.id || `api-${index}`,
-                                homeTeam: apiMatch.homeTeam,
-                                homeFlag: apiMatch.homeFlag || getFlagUrl(apiMatch.homeTeam),
-                                awayTeam: apiMatch.awayTeam,
-                                awayFlag: apiMatch.awayFlag || getFlagUrl(apiMatch.awayTeam),
-                                homeScore: apiMatch.homeScore === "" || apiMatch.homeScore === null ? null : parseInt(apiMatch.homeScore),
-                                awayScore: apiMatch.awayScore === "" || apiMatch.awayScore === null ? null : parseInt(apiMatch.awayScore),
-                                matchDate: apiMatch.matchDate,
-                                matchTime: apiMatch.matchTime || "TBD",
-                                venue: apiMatch.venue || "Championship Stadium",
-                                group: apiMatch.group || "Group Stage",
-                                status: apiMatch.status || "Scheduled",
-                                minute: apiMatch.minute || null,
-                                stream: apiMatch.stream || "FOX Sports"
-                            };
-                        });
+                // Same-origin call to our cached serverless proxy (/api/feed),
+                // which fetches and normalises the ESPN data and serves every
+                // visitor from its CDN cache — so upstream load stays flat no
+                // matter how many people open the page.
+                const res = await fetch(FEED_ENDPOINT, { headers: { "Accept": "application/json" } });
+                if (!res.ok) throw new Error(`Feed responded ${res.status}`);
 
-                        saveFeedCache(matches);
-                        recalculateStandings();
-                        renderMatches();
-                        renderStandings();
-                    }
+                const data = await res.json();
+                if (Array.isArray(data.matches) && data.matches.length > 0) {
+                    saveFeedCache(data);
+                    applyFeed(data);
                 } else {
-                    throw new Error("Empty query return");
+                    throw new Error("Empty feed payload");
                 }
             } catch (err) {
                 console.error("Live feed unavailable; using preserved schedule.", err);
@@ -1089,33 +1011,13 @@
             }
         }
 
-        async function callGeminiWithBackoff(payload, maxRetries = 3) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${GEMINI_API_KEY}`;
-
-            let delay = 1000;
-            for (let i = 0; i < maxRetries; i++) {
-                const res = await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-
-                if (res.ok) return await res.json();
-
-                // Only back off for rate limiting (429) and transient server
-                // errors (5xx). A 4xx (e.g. bad/missing key) won't fix itself on
-                // retry, so fail fast instead of multiplying the request count.
-                const retryable = res.status === 429 || res.status >= 500;
-                if (!retryable || i === maxRetries - 1) {
-                    throw new Error(`Gemini request failed: ${res.status}`);
-                }
-
-                // Honour the server's Retry-After hint when it tells us to slow down.
-                const retryAfter = parseInt(res.headers.get("Retry-After"), 10);
-                const wait = Number.isFinite(retryAfter) ? retryAfter * 1000 : delay;
-                await new Promise(resolve => setTimeout(resolve, wait));
-                delay *= 2;
-            }
+        // Apply a feed payload: swap in live matches and official standings when
+        // present, otherwise leave the built-in data untouched.
+        function applyFeed(data) {
+            if (Array.isArray(data.matches) && data.matches.length > 0) matches = data.matches;
+            if (Array.isArray(data.groups) && data.groups.length > 0) groups = data.groups;
+            renderMatches();
+            renderStandings();
         }
 
         function getEmojiFlag(countryName) {
