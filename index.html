@@ -109,7 +109,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center gap-5">
                 <div>
                     <p class="text-[10px] text-luxury-slate font-semibold uppercase tracking-[0.3em] mb-1">Corfu, Greece</p>
-                    <h1 class="text-2xl md:text-[34px] leading-none font-light text-luxury-navy uppercase" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.08em;">
+                    <h1 class="text-2xl md:text-[34px] leading-none font-normal text-luxury-navy uppercase" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.08em;">
                         Atlantica Mediterraneo Resort
                     </h1>
                 </div>
@@ -152,10 +152,7 @@
             <!-- Compact, Luxury Chronometer Card -->
             <div class="bg-white border-2 border-[#DEDCEA] px-5 py-3 rounded-xl shadow-sm flex flex-col sm:flex-row items-center gap-5 w-full lg:w-auto lg:max-w-md">
                 <div class="flex flex-col text-center sm:text-left">
-                    <div class="flex items-center justify-center sm:justify-start gap-1.5">
-                        <span class="text-[10px] font-bold uppercase tracking-widest text-luxury-gold serif-sub">Athens Chronometer</span>
-                        <span class="text-[9px] text-luxury-slate bg-luxury-canvas border-2 border-[#DEDCEA] px-1.5 py-0.5 rounded font-mono uppercase font-bold">EEST</span>
-                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-luxury-gold serif-sub">Countdown Till Next Match</span>
                     <span class="text-[10px] text-luxury-slate font-light mt-0.5 block" id="kickoff-desc">🇲🇽 Mexico vs 🇿🇦 South Africa</span>
                 </div>
                 
@@ -226,7 +223,7 @@
     <footer class="bg-white border-t-2 border-[#DEDCEA] py-10 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
-                <p class="text-lg md:text-xl font-light text-luxury-navy uppercase" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.08em;">
+                <p class="text-lg md:text-xl font-normal text-luxury-navy uppercase" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.08em;">
                     Atlantica Mediterraneo Resort
                 </p>
                 <p class="text-[11px] text-luxury-slate font-medium uppercase tracking-[0.25em] mt-1">FIFA World Cup 2026</p>
@@ -667,8 +664,8 @@
             const fallbackEmoji = getEmojiFlag(teamName);
 
             return `
-                <div class="relative w-14 h-14 flex items-center justify-center rounded-full bg-[#F5F4F8] border-2 border-[#E5E4EC] shadow-inner overflow-hidden p-0.5 group-hover:scale-105 transition-transform duration-300">
-                    <img src="${src}" alt="${teamName}" onerror="this.onerror=null; this.src=''; this.outerHTML='&lt;span class=&quot;text-2xl filter drop-shadow&quot;&gt;${fallbackEmoji}&lt;/span&gt;';" class="w-full h-full object-cover rounded-full" />
+                <div class="relative w-14 h-10 flex items-center justify-center rounded-md bg-[#F5F4F8] border-2 border-[#E5E4EC] shadow-inner overflow-hidden group-hover:scale-105 transition-transform duration-300">
+                    <img src="${src}" alt="${teamName}" onerror="this.onerror=null; this.src=''; this.outerHTML='&lt;span class=&quot;text-2xl filter drop-shadow&quot;&gt;${fallbackEmoji}&lt;/span&gt;';" class="w-full h-full object-cover" />
                 </div>
             `;
         }
@@ -679,8 +676,8 @@
             const fallbackEmoji = getEmojiFlag(teamName);
 
             return `
-                <div class="relative w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F4F8] border-2 border-[#DEDCEA] overflow-hidden p-0.5 shadow-sm">
-                    <img src="${src}" alt="${teamName}" onerror="this.onerror=null; this.src=''; this.outerHTML='&lt;span class=&quot;text-[11px]&quot;&gt;${fallbackEmoji}&lt;/span&gt;';" class="w-full h-full object-cover rounded-full" />
+                <div class="relative w-7 h-5 flex items-center justify-center rounded-sm bg-[#F5F4F8] border border-[#DEDCEA] overflow-hidden shadow-sm shrink-0">
+                    <img src="${src}" alt="${teamName}" onerror="this.onerror=null; this.src=''; this.outerHTML='&lt;span class=&quot;text-[11px]&quot;&gt;${fallbackEmoji}&lt;/span&gt;';" class="w-full h-full object-cover" />
                 </div>
             `;
         }
@@ -824,17 +821,17 @@
 
                     rowsHtml += `
                         <tr class="hover:bg-luxury-canvas border-b border-[#E5E4EC]/40 text-[11px] transition duration-150 ${bgClass}">
-                            <td class="px-3.5 py-3 font-bold text-center ${rankClass}">${idx + 1}</td>
-                            <td class="px-3.5 py-3 font-medium text-luxury-navy flex items-center gap-2.5">
+                            <td class="px-1.5 py-3 font-bold text-center ${rankClass}">${idx + 1}</td>
+                            <td class="pl-1.5 pr-2 py-3 font-medium text-luxury-navy flex items-center gap-2">
                                 ${renderSmallFlagShield(t.team)}
-                                <span class="truncate max-w-[95px] font-semibold">${t.team}</span>
+                                <span class="truncate max-w-[84px] font-semibold">${t.team}</span>
                             </td>
-                            <td class="px-2 py-3 text-center font-medium font-mono">${t.played}</td>
-                            <td class="px-2 py-3 text-center font-medium font-mono text-luxury-slate">${t.won}</td>
-                            <td class="px-2 py-3 text-center font-medium font-mono text-luxury-slate">${t.drawn}</td>
-                            <td class="px-2 py-3 text-center font-medium font-mono text-luxury-slate">${t.lost}</td>
-                            <td class="px-2 py-3 text-center font-bold font-mono text-luxury-slate">${formattedDiff}</td>
-                            <td class="px-3.5 py-3 text-center font-bold font-mono text-luxury-navy">${t.points}</td>
+                            <td class="px-1.5 py-3 text-center font-medium font-mono">${t.played}</td>
+                            <td class="px-1.5 py-3 text-center font-medium font-mono text-luxury-slate">${t.won}</td>
+                            <td class="px-1.5 py-3 text-center font-medium font-mono text-luxury-slate">${t.drawn}</td>
+                            <td class="px-1.5 py-3 text-center font-medium font-mono text-luxury-slate">${t.lost}</td>
+                            <td class="px-1.5 py-3 text-center font-bold font-mono text-luxury-slate">${formattedDiff}</td>
+                            <td class="px-2 py-3 text-center font-bold font-mono text-luxury-navy">${t.points}</td>
                         </tr>
                     `;
                 });
@@ -849,14 +846,14 @@
                             <table class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="bg-luxury-canvas text-[9px] uppercase tracking-widest text-luxury-slate border-b border-[#E5E4EC] serif-sub">
-                                        <th class="px-3.5 py-2 text-center">Pos</th>
-                                        <th class="px-3.5 py-2">Team</th>
-                                        <th class="px-2 py-2 text-center">P</th>
-                                        <th class="px-2 py-2 text-center">W</th>
-                                        <th class="px-2 py-2 text-center">D</th>
-                                        <th class="px-2 py-2 text-center">L</th>
-                                        <th class="px-2 py-2 text-center">GD</th>
-                                        <th class="px-3.5 py-2 text-center">Pts</th>
+                                        <th class="px-1.5 py-2 text-center">#</th>
+                                        <th class="pl-1.5 pr-2 py-2">Team</th>
+                                        <th class="px-1.5 py-2 text-center">P</th>
+                                        <th class="px-1.5 py-2 text-center">W</th>
+                                        <th class="px-1.5 py-2 text-center">D</th>
+                                        <th class="px-1.5 py-2 text-center">L</th>
+                                        <th class="px-1.5 py-2 text-center">GD</th>
+                                        <th class="px-2 py-2 text-center">Pts</th>
                                     </tr>
                                 </thead>
                                 <tbody>
