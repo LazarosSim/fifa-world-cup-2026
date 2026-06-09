@@ -809,6 +809,9 @@
                     const diffB = b.goalsFor - b.goalsAgainst;
                     if (diffB !== diffA) return diffB - diffA;
                     if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
+                    // Teams still level (e.g. pre-tournament, all zeros) follow the
+                    // official feed rank rather than an arbitrary alphabetical order.
+                    if (a.rank && b.rank && a.rank !== b.rank) return a.rank - b.rank;
                     return a.team.localeCompare(b.team);
                 });
 
