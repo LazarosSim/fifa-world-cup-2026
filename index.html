@@ -60,7 +60,7 @@
         /* Luxury Panels */
         .luxury-card {
             background: #FFFFFF;
-            border: 1px solid #E5E4EC;
+            border: 2px solid #DEDCEA;
             box-shadow: 0 4px 20px -2px rgba(45, 42, 94, 0.06);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -99,36 +99,32 @@
 <body class="h-full flex flex-col overflow-x-hidden antialiased">
 
     <!-- Thin Top Aesthetic Accent Line -->
-    <div class="h-[3px] w-full bg-gradient-to-r from-luxury-gold via-luxury-navy to-luxury-gold"></div>
+    <div class="h-1 w-full bg-gradient-to-r from-luxury-gold via-luxury-navy to-luxury-gold"></div>
 
     <!-- Header Block -->
-    <header class="bg-white border-b border-[#E5E4EC] sticky top-0 z-40 shadow-sm">
+    <header class="bg-white border-b-2 border-[#DEDCEA] sticky top-0 z-40 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col lg:flex-row items-center justify-between gap-6">
             
             <!-- Brand & Atlantica Editorial Identity -->
             <div class="flex flex-col sm:flex-row sm:items-center gap-5">
-                <div class="flex items-center">
-                    <!-- Pulling the logo directly from the official Atlantica assets SVG URL -->
-                    <img src="https://www.atlanticahotels.com/assets/svg/atlantica-plain.svg" class="h-10 md:h-12 object-contain block" alt="Atlantica" onerror="this.style.display='none'; document.getElementById('atlantica-text-fallback').classList.remove('hidden');" />
-                    <span id="atlantica-text-fallback" class="hidden text-3xl md:text-4xl font-light text-luxury-navy serif-title tracking-tight" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: -0.03em;">Atlantica</span>
+                <div>
+                    <p class="text-[10px] text-luxury-slate font-semibold uppercase tracking-[0.3em] mb-1">Corfu, Greece</p>
+                    <h1 class="text-2xl md:text-[34px] leading-none font-light text-luxury-navy uppercase" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.08em;">
+                        Atlantica Mediterraneo Resort
+                    </h1>
                 </div>
-                <div class="h-8 w-px bg-[#E5E4EC] hidden sm:block"></div>
+                <div class="h-10 w-px bg-[#DEDCEA] hidden sm:block"></div>
                 <div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <h1 class="text-xl md:text-2xl font-light text-luxury-navy serif-title tracking-wide uppercase">
+                        <h2 class="text-base md:text-lg font-light text-luxury-navy serif-title tracking-wide uppercase">
                             FIFA WORLD CUP 2026™
-                        </h1>
+                        </h2>
                         <span class="text-[9px] bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20 font-bold px-2 py-0.5 rounded-full uppercase tracking-widest pulse-soft">
                             Live Hub
                         </span>
                     </div>
-                    <!-- Minimalist breadcrumb styling based on uploaded image (ATHENS/GREECE locale) -->
-                    <p class="text-[10px] text-luxury-slate font-medium uppercase tracking-widest mt-0.5 flex flex-wrap items-center gap-1.5 serif-sub">
-                        <span>Greece</span>
-                        <span class="text-luxury-gold/60">/</span>
-                        <span>Corfu</span>
-                        <span class="text-luxury-gold/60">/</span>
-                        <span>Atlantica Suite</span>
+                    <p class="text-[10px] text-luxury-slate font-medium uppercase tracking-widest mt-1 flex flex-wrap items-center gap-1.5 serif-sub">
+                        <span>Athens Time Zone</span>
                         <span class="text-luxury-gold/40">|</span>
                         <span class="text-luxury-navy font-semibold" id="header-date">June 9, 2026</span>
                     </p>
@@ -137,7 +133,7 @@
 
             <!-- Online Syncing State -->
             <div class="flex flex-wrap items-center gap-3">
-                <div id="api-status-badge" class="flex items-center gap-2 bg-luxury-canvas border border-[#E5E4EC] px-4 py-2 rounded-full text-xs text-luxury-slate">
+                <div id="api-status-badge" class="flex items-center gap-2 bg-luxury-canvas border-2 border-[#DEDCEA] px-4 py-2 rounded-full text-xs text-luxury-slate">
                     <span class="h-2 w-2 rounded-full bg-luxury-gold pulse-soft" id="status-indicator-dot"></span>
                     <span id="api-status-text" class="font-medium tracking-wide">Syncing Live Schedules...</span>
                 </div>
@@ -153,10 +149,10 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
         
         <!-- NAVIGATION BAR & RESIZED CHRONOMETER HERO (Merged Layout) -->
-        <section class="flex flex-col lg:flex-row items-start lg:items-center justify-between border-b border-[#E5E4EC] pb-6 gap-6">
+        <section class="flex flex-col lg:flex-row items-start lg:items-center justify-between border-b-2 border-[#DEDCEA] pb-6 gap-6">
             
             <!-- Tabs Menu -->
-            <nav class="flex space-x-8 border-b border-[#E5E4EC]" aria-label="Tabs">
+            <nav class="flex space-x-8 border-b-2 border-[#DEDCEA]" aria-label="Tabs">
                 <button onclick="switchTab('tab-schedule')" id="btn-tab-schedule" class="tab-btn px-1 pb-3 -mb-px text-xs font-semibold uppercase tracking-wider transition-all duration-200 text-luxury-navy border-b-2 border-luxury-navy flex items-center gap-2">
                     <i class="fa-solid fa-calendar-days text-[11px]"></i> Match Schedule
                 </button>
@@ -166,11 +162,11 @@
             </nav>
 
             <!-- Compact, Luxury Chronometer Card -->
-            <div class="bg-white border border-[#E5E4EC] px-5 py-3 rounded-xl shadow-sm flex flex-col sm:flex-row items-center gap-5 w-full lg:w-auto lg:max-w-md">
+            <div class="bg-white border-2 border-[#DEDCEA] px-5 py-3 rounded-xl shadow-sm flex flex-col sm:flex-row items-center gap-5 w-full lg:w-auto lg:max-w-md">
                 <div class="flex flex-col text-center sm:text-left">
                     <div class="flex items-center justify-center sm:justify-start gap-1.5">
                         <span class="text-[10px] font-bold uppercase tracking-widest text-luxury-gold serif-sub">Athens Chronometer</span>
-                        <span class="text-[9px] text-luxury-slate bg-luxury-canvas border border-[#E5E4EC] px-1.5 py-0.5 rounded font-mono uppercase font-bold">EEST</span>
+                        <span class="text-[9px] text-luxury-slate bg-luxury-canvas border-2 border-[#DEDCEA] px-1.5 py-0.5 rounded font-mono uppercase font-bold">EEST</span>
                     </div>
                     <span class="text-[10px] text-luxury-slate font-light mt-0.5 block" id="kickoff-desc">🇲🇽 Mexico vs 🇿🇦 South Africa</span>
                 </div>
@@ -179,19 +175,19 @@
 
                 <!-- Numerical Dial Grid -->
                 <div class="grid grid-cols-4 gap-1.5 text-center shrink-0 w-full sm:w-auto" id="countdown-grid">
-                    <div class="bg-luxury-canvas border border-[#E5E4EC] rounded px-2.5 py-1 min-w-[42px]">
+                    <div class="bg-luxury-canvas border-2 border-[#DEDCEA] rounded px-2.5 py-1 min-w-[42px]">
                         <span class="block text-sm font-light text-luxury-navy font-mono" id="cnt-days">00</span>
                         <span class="text-[8px] uppercase font-bold text-luxury-slate tracking-widest serif-sub">d</span>
                     </div>
-                    <div class="bg-luxury-canvas border border-[#E5E4EC] rounded px-2.5 py-1 min-w-[42px]">
+                    <div class="bg-luxury-canvas border-2 border-[#DEDCEA] rounded px-2.5 py-1 min-w-[42px]">
                         <span class="block text-sm font-light text-luxury-navy font-mono" id="cnt-hours">00</span>
                         <span class="text-[8px] uppercase font-bold text-luxury-slate tracking-widest serif-sub">h</span>
                     </div>
-                    <div class="bg-luxury-canvas border border-[#E5E4EC] rounded px-2.5 py-1 min-w-[42px]">
+                    <div class="bg-luxury-canvas border-2 border-[#DEDCEA] rounded px-2.5 py-1 min-w-[42px]">
                         <span class="block text-sm font-light text-luxury-navy font-mono" id="cnt-mins">00</span>
                         <span class="text-[8px] uppercase font-bold text-luxury-slate tracking-widest serif-sub">m</span>
                     </div>
-                    <div class="bg-luxury-canvas border border-[#E5E4EC] rounded px-2.5 py-1 min-w-[42px]">
+                    <div class="bg-luxury-canvas border-2 border-[#DEDCEA] rounded px-2.5 py-1 min-w-[42px]">
                         <span class="block text-sm font-light text-luxury-gold font-mono" id="cnt-secs">00</span>
                         <span class="text-[8px] uppercase font-bold text-luxury-slate tracking-widest serif-sub">s</span>
                     </div>
@@ -202,23 +198,23 @@
         <!-- TAB CONTENT: MATCH SCHEDULE -->
         <section id="tab-schedule" class="tab-pane flex flex-col gap-6">
             <!-- Filters Toolbar -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-5 rounded-xl border border-[#E5E4EC] shadow-sm">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-5 rounded-xl border-2 border-[#DEDCEA] shadow-sm">
                 <div class="relative w-full md:w-80">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-luxury-slate/60 text-sm"></i>
-                    <input type="text" id="match-search" oninput="filterMatches()" placeholder="Search team, group, stadium venue..." class="w-full bg-luxury-canvas border border-[#E5E4EC] rounded-lg pl-11 pr-4 py-2.5 text-xs font-medium text-luxury-navy placeholder-luxury-slate/50 focus:outline-none focus:border-luxury-gold transition-colors">
+                    <input type="text" id="match-search" oninput="filterMatches()" placeholder="Search team, group, stadium venue..." class="w-full bg-luxury-canvas border-2 border-[#DEDCEA] rounded-lg pl-11 pr-4 py-2.5 text-xs font-medium text-luxury-navy placeholder-luxury-slate/50 focus:outline-none focus:border-luxury-gold transition-colors">
                 </div>
                 
                 <div class="flex flex-wrap gap-2 w-full md:w-auto">
-                    <button onclick="filterGroupRange('all')" class="match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold bg-luxury-navy text-white border border-luxury-navy transition" id="filter-all">
+                    <button onclick="filterGroupRange('all')" class="match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold bg-luxury-navy text-white border-2 border-luxury-navy transition" id="filter-all">
                         All Groups
                     </button>
-                    <button onclick="filterGroupRange('ad')" class="match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border border-[#E5E4EC] hover:text-luxury-navy transition" id="filter-ad">
+                    <button onclick="filterGroupRange('ad')" class="match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border-2 border-[#DEDCEA] hover:text-luxury-navy transition" id="filter-ad">
                         Groups A - D
                     </button>
-                    <button onclick="filterGroupRange('eh')" class="match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border border-[#E5E4EC] hover:text-luxury-navy transition" id="filter-eh">
+                    <button onclick="filterGroupRange('eh')" class="match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border-2 border-[#DEDCEA] hover:text-luxury-navy transition" id="filter-eh">
                         Groups E - H
                     </button>
-                    <button onclick="filterGroupRange('il')" class="match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border border-[#E5E4EC] hover:text-luxury-navy transition" id="filter-il">
+                    <button onclick="filterGroupRange('il')" class="match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border-2 border-[#DEDCEA] hover:text-luxury-navy transition" id="filter-il">
                         Groups I - L
                     </button>
                 </div>
@@ -239,16 +235,15 @@
     </main>
 
     <!-- FOOTER PANEL -->
-    <footer class="bg-white border-t border-[#E5E4EC] py-8 mt-12 text-center text-xs text-luxury-slate">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-5">
-            <p class="font-light">© 2026 World Cup Elite Hub — Atlantica Suite Corfu.</p>
-            <div class="flex items-center gap-5">
-                <span class="flex items-center gap-1.5 text-luxury-navy font-medium uppercase tracking-wider serif-sub">
-                    <i class="fa-solid fa-earth-europe text-luxury-gold text-[10px]"></i> Athens Time Zone (EEST)
-                </span>
-                <span class="text-[#E5E4EC]">|</span>
-                <span class="text-luxury-slate">Browser Timezone System Enabled</span>
+    <footer class="bg-white border-t-2 border-[#DEDCEA] py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div>
+                <p class="text-lg md:text-xl font-light text-luxury-navy uppercase" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.08em;">
+                    Atlantica Mediterraneo Resort
+                </p>
+                <p class="text-[11px] text-luxury-slate font-medium uppercase tracking-[0.25em] mt-1">FIFA World Cup 2026</p>
             </div>
+            <img src="https://www.atlanticahotels.com/assets/svg/atlantica-plain.svg" class="h-7 md:h-8 object-contain opacity-80" alt="Atlantica" onerror="this.style.display='none';" />
         </div>
     </footer>
 
@@ -696,7 +691,7 @@
             const fallbackEmoji = getEmojiFlag(teamName);
 
             return `
-                <div class="relative w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F4F8] border border-[#E5E4EC] overflow-hidden p-0.5 shadow-sm">
+                <div class="relative w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F4F8] border-2 border-[#DEDCEA] overflow-hidden p-0.5 shadow-sm">
                     <img src="${src}" alt="${teamName}" onerror="this.onerror=null; this.src=''; this.outerHTML='&lt;span class=&quot;text-[11px]&quot;&gt;${fallbackEmoji}&lt;/span&gt;';" class="w-full h-full object-cover rounded-full" />
                 </div>
             `;
@@ -739,10 +734,10 @@
                 let scoreDisplay = "";
 
                 if (m.status === "Scheduled") {
-                    statusBadge = `<span class="bg-luxury-canvas text-luxury-slate border border-[#E5E4EC] text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Scheduled</span>`;
+                    statusBadge = `<span class="bg-luxury-canvas text-luxury-slate border-2 border-[#DEDCEA] text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Scheduled</span>`;
                     scoreDisplay = `
                         <div class="flex items-center gap-1">
-                            <span class="text-[10px] bg-luxury-canvas border border-[#E5E4EC] text-luxury-slate px-2 py-1 rounded font-bold uppercase tracking-widest font-mono">VS</span>
+                            <span class="text-[10px] bg-luxury-canvas border-2 border-[#DEDCEA] text-luxury-slate px-2 py-1 rounded font-bold uppercase tracking-widest font-mono">VS</span>
                         </div>
                     `;
                 } else if (m.status === "Live") {
@@ -766,7 +761,7 @@
                 }
 
                 const cardHtml = `
-                    <div class="luxury-card bg-white p-5 rounded-xl flex flex-col justify-between gap-5 border border-[#E5E4EC] transition-all relative overflow-hidden group">
+                    <div class="luxury-card bg-white p-5 rounded-xl flex flex-col justify-between gap-5 border-2 border-[#DEDCEA] transition-all relative overflow-hidden group">
                         
                         <!-- Top status line -->
                         <div class="flex items-center justify-between gap-2 border-b border-[#E5E4EC]/60 pb-3">
@@ -796,7 +791,7 @@
                         </div>
 
                         <!-- Bottom Metadata Block -->
-                        <div class="bg-luxury-canvas p-3 rounded-lg border border-[#E5E4EC]/60 flex flex-col gap-1 text-[10px] text-luxury-slate">
+                        <div class="bg-luxury-canvas p-3 rounded-lg border-2 border-[#DEDCEA]/60 flex flex-col gap-1 text-[10px] text-luxury-slate">
                             <div class="flex items-center justify-between">
                                 <span class="truncate font-light"><i class="fa-solid fa-location-dot text-luxury-gold mr-1 text-[9px]"></i> ${m.venue}</span>
                             </div>
@@ -854,7 +849,7 @@
                 });
 
                 const groupCard = `
-                    <div class="bg-white rounded-xl border border-[#E5E4EC] overflow-hidden shadow-sm hover:border-luxury-gold/50 transition duration-300">
+                    <div class="bg-white rounded-xl border-2 border-[#DEDCEA] overflow-hidden shadow-sm hover:border-luxury-gold/50 transition duration-300">
                         <div class="bg-gradient-to-r from-luxury-canvas to-white px-4.5 py-3 border-b border-[#E5E4EC] flex items-center justify-between">
                             <h4 class="text-xs font-bold uppercase text-luxury-navy tracking-widest serif-sub">${g.groupName}</h4>
                             <span class="text-[9px] text-luxury-gold font-bold uppercase tracking-widest serif-sub">Qualifiers</span>
@@ -949,7 +944,7 @@
             currentGroupFilter = range;
             
             document.querySelectorAll('.match-filter-btn').forEach(btn => {
-                btn.className = "match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border border-[#E5E4EC] hover:text-luxury-navy transition";
+                btn.className = "match-filter-btn px-5 py-2.5 rounded-sm text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border-2 border-[#DEDCEA] hover:text-luxury-navy transition";
             });
 
             const activeBtn = document.getElementById(`filter-${range}`);
@@ -1047,7 +1042,7 @@
                         renderStandings();
                     }
 
-                    badge.className = "flex items-center gap-2 bg-luxury-canvas border border-[#E5E4EC] px-3 py-1.5 rounded-full text-xs text-luxury-emerald";
+                    badge.className = "flex items-center gap-2 bg-luxury-canvas border-2 border-[#DEDCEA] px-3 py-1.5 rounded-full text-xs text-luxury-emerald";
                     dot.className = "h-2 w-2 rounded-full bg-luxury-emerald pulse-soft";
                     apiStatusTextEl.innerText = "Schedules synchronized";
                 } else {
@@ -1055,7 +1050,7 @@
                 }
             } catch (err) {
                 console.error("Using secure client offline fallback database.", err);
-                badge.className = "flex items-center gap-2 bg-luxury-canvas border border-[#E5E4EC] px-3 py-1.5 rounded-full text-xs text-luxury-slate";
+                badge.className = "flex items-center gap-2 bg-luxury-canvas border-2 border-[#DEDCEA] px-3 py-1.5 rounded-full text-xs text-luxury-slate";
                 dot.className = "h-2 w-2 rounded-full bg-luxury-gold";
                 apiStatusTextEl.innerText = "Offline mode - preserved schedules";
                 
