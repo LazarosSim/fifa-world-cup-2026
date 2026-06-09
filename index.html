@@ -130,18 +130,6 @@
                     </p>
                 </div>
             </div>
-
-            <!-- Online Syncing State -->
-            <div class="flex flex-wrap items-center gap-3">
-                <div id="api-status-badge" class="flex items-center gap-2 bg-luxury-canvas border-2 border-[#DEDCEA] px-4 py-2 rounded-full text-xs text-luxury-slate">
-                    <span class="h-2 w-2 rounded-full bg-luxury-gold pulse-soft" id="status-indicator-dot"></span>
-                    <span id="api-status-text" class="font-medium tracking-wide">Syncing Live Schedules...</span>
-                </div>
-                
-                <button onclick="triggerAISync()" class="bg-luxury-navy hover:bg-luxury-gold text-white font-medium uppercase tracking-wider px-5 py-2 rounded-sm text-xs transition-all duration-300 shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-rotate-right text-[10px]"></i> Sync Live Feed
-                </button>
-            </div>
         </div>
     </header>
 
@@ -959,14 +947,60 @@
         //  CLIENT-SIDE LIVE SYNC CONTROLLER
         // ==========================================
 
+        // --- Live feed cache (localStorage, shared across reloads & tabs) ---
+        // A short TTL means repeated visits/refreshes reuse the last result
+        // instead of issuing a fresh grounded request to the data provider.
+        const FEED_CACHE_KEY = "wc2026_feed_v1";
+        const FEED_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
+        // Live-sync credential. Empty by default: the app ships with no client-side
+        // key, so it makes ZERO network calls and serves the built-in schedule.
+        // Wire a key (ideally via a server-side proxy) to enable live syncing.
+        const GEMINI_API_KEY = "";
+
+        function loadFeedCache() {
+            try {
+                const cached = JSON.parse(localStorage.getItem(FEED_CACHE_KEY));
+                if (!cached || !Array.isArray(cached.matches) || !cached.timestamp) return null;
+                if (Date.now() - cached.timestamp > FEED_CACHE_TTL) return null; // stale
+                return cached.matches;
+            } catch {
+                return null;
+            }
+        }
+
+        function saveFeedCache(matchesData) {
+            try {
+                localStorage.setItem(FEED_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), matches: matchesData }));
+            } catch { /* storage unavailable — fall back to in-memory only */ }
+        }
+
+        let syncInFlight = false;
+
         async function triggerAISync() {
-            const badge = document.getElementById("api-status-badge");
-            const dot = document.getElementById("status-indicator-dot");
-            const apiStatusTextEl = document.getElementById("api-status-text");
-            
-            badge.className = "flex items-center gap-2 bg-luxury-goldLight border border-luxury-gold/50 px-3 py-1.5 rounded-full text-xs text-luxury-navy shadow-sm";
-            dot.className = "h-2 w-2 rounded-full bg-luxury-gold animate-spin";
-            apiStatusTextEl.innerText = "Syncing live schedules...";
+            // Serve fresh cache without touching the network — the main guard
+            // against hammering the provider on every page load or extra tab.
+            const cached = loadFeedCache();
+            if (cached) {
+                matches = cached;
+                recalculateStandings();
+                renderMatches();
+                renderStandings();
+                return;
+            }
+
+            // No key configured → never touch the network. The built-in schedule
+            // stands in, so an unconfigured deployment makes zero API calls.
+            if (!GEMINI_API_KEY) {
+                recalculateStandings();
+                renderMatches();
+                renderStandings();
+                return;
+            }
+
+            // Never run two syncs at once.
+            if (syncInFlight) return;
+            syncInFlight = true;
 
             const userQuery = "Today is Tuesday, June 9, 2026. Retrieve the active live status, live scores, results, and upcoming schedules of the 2026 FIFA World Cup. Provide real-time data if games are currently live or have finished. Return the information matching the requested JSON schema.";
             
@@ -1037,48 +1071,50 @@
                             };
                         });
 
+                        saveFeedCache(matches);
                         recalculateStandings();
                         renderMatches();
                         renderStandings();
                     }
-
-                    badge.className = "flex items-center gap-2 bg-luxury-canvas border-2 border-[#DEDCEA] px-3 py-1.5 rounded-full text-xs text-luxury-emerald";
-                    dot.className = "h-2 w-2 rounded-full bg-luxury-emerald pulse-soft";
-                    apiStatusTextEl.innerText = "Schedules synchronized";
                 } else {
                     throw new Error("Empty query return");
                 }
             } catch (err) {
-                console.error("Using secure client offline fallback database.", err);
-                badge.className = "flex items-center gap-2 bg-luxury-canvas border-2 border-[#DEDCEA] px-3 py-1.5 rounded-full text-xs text-luxury-slate";
-                dot.className = "h-2 w-2 rounded-full bg-luxury-gold";
-                apiStatusTextEl.innerText = "Offline mode - preserved schedules";
-                
+                console.error("Live feed unavailable; using preserved schedule.", err);
                 recalculateStandings();
                 renderMatches();
                 renderStandings();
+            } finally {
+                syncInFlight = false;
             }
         }
 
-        async function callGeminiWithBackoff(payload, maxRetries = 5) {
-            const apiKey = ""; 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            
+        async function callGeminiWithBackoff(payload, maxRetries = 3) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${GEMINI_API_KEY}`;
+
             let delay = 1000;
             for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const res = await fetch(url, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!res.ok) throw new Error(`Status: ${res.status}`);
-                    return await res.json();
-                } catch (err) {
-                    if (i === maxRetries - 1) throw err;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) return await res.json();
+
+                // Only back off for rate limiting (429) and transient server
+                // errors (5xx). A 4xx (e.g. bad/missing key) won't fix itself on
+                // retry, so fail fast instead of multiplying the request count.
+                const retryable = res.status === 429 || res.status >= 500;
+                if (!retryable || i === maxRetries - 1) {
+                    throw new Error(`Gemini request failed: ${res.status}`);
                 }
+
+                // Honour the server's Retry-After hint when it tells us to slow down.
+                const retryAfter = parseInt(res.headers.get("Retry-After"), 10);
+                const wait = Number.isFinite(retryAfter) ? retryAfter * 1000 : delay;
+                await new Promise(resolve => setTimeout(resolve, wait));
+                delay *= 2;
             }
         }
 
