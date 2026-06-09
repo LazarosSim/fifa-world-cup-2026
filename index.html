@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA World Cup 2026™ — Live Hub</title>
+    
+    <!-- TailWind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        luxury: {
+                            canvas: '#FAF9F6', /* Warm Ivory */
+                            pure: '#FFFFFF',
+                            navy: '#0F1E36',   /* Royal Midnight Navy */
+                            slate: '#4A5568',  /* Muted Grey */
+                            gold: '#C5A880',   /* Antique Champagne Gold */
+                            goldLight: '#F4EFE6',
+                            emerald: '#1B4A36'  /* Premium Pitch Green */
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Cormorant Garamond & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAF9F6;
+            color: #0F1E36;
+            scrollbar-width: thin;
+            scrollbar-color: #C5A880 #FAF9F6;
+        }
+
+        .serif-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            letter-spacing: -0.02em;
+        }
+
+        .serif-sub {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* Luxury Panels */
+        .luxury-card {
+            background: #FFFFFF;
+            border: 1px solid #EAE6DF;
+            box-shadow: 0 4px 20px -2px rgba(142, 135, 120, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .luxury-card:hover {
+            border-color: #C5A880;
+            box-shadow: 0 10px 30px -4px rgba(197, 168, 128, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Custom luxury thin scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF9F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D5CFC5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C5A880;
+        }
+
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        .pulse-soft {
+            animation: subtle-pulse 2.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col overflow-x-hidden antialiased">
+
+    <!-- Thin Top Aesthetic Accent Line -->
+    <div class="h-[3px] w-full bg-gradient-to-r from-luxury-gold via-luxury-navy to-luxury-gold"></div>
+
+    <!-- Header Block -->
+    <header class="bg-white border-b border-[#EAE6DF] sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col lg:flex-row items-center justify-between gap-6">
+            
+            <!-- Brand & Atlantica Editorial Identity -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-5">
+                <div class="flex items-center">
+                    <!-- Pulling the logo directly from the official Atlantica assets SVG URL -->
+                    <img src="https://www.atlanticahotels.com/assets/svg/atlantica-plain.svg" class="h-10 md:h-12 object-contain block" alt="Atlantica" onerror="this.style.display='none'; document.getElementById('atlantica-text-fallback').classList.remove('hidden');" />
+                    <span id="atlantica-text-fallback" class="hidden text-3xl md:text-4xl font-light text-luxury-navy serif-title tracking-tight" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: -0.03em;">Atlantica</span>
+                </div>
+                <div class="h-8 w-px bg-[#EAE6DF] hidden sm:block"></div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h1 class="text-xl md:text-2xl font-light text-luxury-navy serif-title tracking-wide uppercase">
+                            FIFA WORLD CUP 2026™
+                        </h1>
+                        <span class="text-[9px] bg-luxury-gold/10 text-luxury-gold border border-luxury-gold/20 font-bold px-2 py-0.5 rounded-full uppercase tracking-widest pulse-soft">
+                            Live Hub
+                        </span>
+                    </div>
+                    <!-- Minimalist breadcrumb styling based on uploaded image (ATHENS/GREECE locale) -->
+                    <p class="text-[10px] text-luxury-slate font-medium uppercase tracking-widest mt-0.5 flex flex-wrap items-center gap-1.5 serif-sub">
+                        <span>Greece</span>
+                        <span class="text-luxury-gold/60">/</span>
+                        <span>Corfu</span>
+                        <span class="text-luxury-gold/60">/</span>
+                        <span>Atlantica Suite</span>
+                        <span class="text-luxury-gold/40">|</span>
+                        <span class="text-luxury-navy font-semibold" id="header-date">June 9, 2026</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Online Syncing State -->
+            <div class="flex flex-wrap items-center gap-3">
+                <div id="api-status-badge" class="flex items-center gap-2 bg-luxury-canvas border border-[#EAE6DF] px-4 py-2 rounded-full text-xs text-luxury-slate">
+                    <span class="h-2 w-2 rounded-full bg-luxury-gold pulse-soft" id="status-indicator-dot"></span>
+                    <span id="api-status-text" class="font-medium tracking-wide">Syncing Live Schedules...</span>
+                </div>
+                
+                <button onclick="triggerAISync()" class="bg-luxury-navy hover:bg-luxury-gold text-white font-medium uppercase tracking-wider px-5 py-2 rounded-full text-xs transition-all duration-300 shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right text-[10px]"></i> Sync Live Feed
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN HUB CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
+        
+        <!-- NAVIGATION BAR & RESIZED CHRONOMETER HERO (Merged Layout) -->
+        <section class="flex flex-col lg:flex-row items-start lg:items-center justify-between border-b border-[#EAE6DF] pb-6 gap-6">
+            
+            <!-- Tabs Menu -->
+            <nav class="flex space-x-2 bg-white p-1 rounded-xl border border-[#EAE6DF]" aria-label="Tabs">
+                <button onclick="switchTab('tab-schedule')" id="btn-tab-schedule" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 bg-luxury-navy text-white flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days text-[11px]"></i> Match Schedule
+                </button>
+                <button onclick="switchTab('tab-standings')" id="btn-tab-standings" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 text-luxury-slate hover:text-luxury-navy hover:bg-luxury-canvas flex items-center gap-2">
+                    <i class="fa-solid fa-list-ol text-[11px]"></i> Standings
+                </button>
+            </nav>
+
+            <!-- Compact, Luxury Chronometer Card -->
+            <div class="bg-white border border-[#EAE6DF] px-5 py-3 rounded-xl shadow-sm flex flex-col sm:flex-row items-center gap-5 w-full lg:w-auto lg:max-w-md">
+                <div class="flex flex-col text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start gap-1.5">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-luxury-gold serif-sub">Athens Chronometer</span>
+                        <span class="text-[9px] text-luxury-slate bg-luxury-canvas border border-[#EAE6DF] px-1.5 py-0.5 rounded font-mono uppercase font-bold">EEST</span>
+                    </div>
+                    <span class="text-[10px] text-luxury-slate font-light mt-0.5 block" id="kickoff-desc">🇲🇽 Mexico vs 🇿🇦 South Africa</span>
+                </div>
+                
+                <div class="h-px w-full sm:h-8 sm:w-px bg-[#EAE6DF]"></div>
+
+                <!-- Numerical Dial Grid -->
+                <div class="grid grid-cols-4 gap-1.5 text-center shrink-0 w-full sm:w-auto" id="countdown-grid">
+                    <div class="bg-luxury-canvas border border-[#EAE6DF] rounded px-2.5 py-1 min-w-[42px]">
+                        <span class="block text-sm font-light text-luxury-navy font-mono" id="cnt-days">00</span>
+                        <span class="text-[8px] uppercase font-bold text-luxury-slate tracking-widest serif-sub">d</span>
+                    </div>
+                    <div class="bg-luxury-canvas border border-[#EAE6DF] rounded px-2.5 py-1 min-w-[42px]">
+                        <span class="block text-sm font-light text-luxury-navy font-mono" id="cnt-hours">00</span>
+                        <span class="text-[8px] uppercase font-bold text-luxury-slate tracking-widest serif-sub">h</span>
+                    </div>
+                    <div class="bg-luxury-canvas border border-[#EAE6DF] rounded px-2.5 py-1 min-w-[42px]">
+                        <span class="block text-sm font-light text-luxury-navy font-mono" id="cnt-mins">00</span>
+                        <span class="text-[8px] uppercase font-bold text-luxury-slate tracking-widest serif-sub">m</span>
+                    </div>
+                    <div class="bg-luxury-canvas border border-[#EAE6DF] rounded px-2.5 py-1 min-w-[42px]">
+                        <span class="block text-sm font-light text-luxury-gold font-mono" id="cnt-secs">00</span>
+                        <span class="text-[8px] uppercase font-bold text-luxury-slate tracking-widest serif-sub">s</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB CONTENT: MATCH SCHEDULE -->
+        <section id="tab-schedule" class="tab-pane flex flex-col gap-6">
+            <!-- Filters Toolbar -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-5 rounded-xl border border-[#EAE6DF] shadow-sm">
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-luxury-slate/60 text-sm"></i>
+                    <input type="text" id="match-search" oninput="filterMatches()" placeholder="Search team, group, stadium venue..." class="w-full bg-luxury-canvas border border-[#EAE6DF] rounded-lg pl-11 pr-4 py-2.5 text-xs font-medium text-luxury-navy placeholder-luxury-slate/50 focus:outline-none focus:border-luxury-gold transition-colors">
+                </div>
+                
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <button onclick="filterGroupRange('all')" class="match-filter-btn px-5 py-2.5 rounded-lg text-[10px] uppercase tracking-widest font-bold bg-luxury-navy text-white border border-luxury-navy transition" id="filter-all">
+                        All Groups
+                    </button>
+                    <button onclick="filterGroupRange('ad')" class="match-filter-btn px-5 py-2.5 rounded-lg text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border border-[#EAE6DF] hover:text-luxury-navy transition" id="filter-ad">
+                        Groups A - D
+                    </button>
+                    <button onclick="filterGroupRange('eh')" class="match-filter-btn px-5 py-2.5 rounded-lg text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border border-[#EAE6DF] hover:text-luxury-navy transition" id="filter-eh">
+                        Groups E - H
+                    </button>
+                    <button onclick="filterGroupRange('il')" class="match-filter-btn px-5 py-2.5 rounded-lg text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border border-[#EAE6DF] hover:text-luxury-navy transition" id="filter-il">
+                        Groups I - L
+                    </button>
+                </div>
+            </div>
+
+            <!-- Matches List Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="match-cards-container">
+                <!-- Injected dynamically by renderMatches() with luxury aesthetics -->
+            </div>
+        </section>
+
+        <!-- TAB CONTENT: GROUP STANDINGS -->
+        <section id="tab-standings" class="tab-pane hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="groups-container">
+                <!-- Injected dynamically by renderStandings() with real flag vectors -->
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER PANEL -->
+    <footer class="bg-white border-t border-[#EAE6DF] py-8 mt-12 text-center text-xs text-luxury-slate">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-5">
+            <p class="font-light">© 2026 World Cup Elite Hub — Atlantica Suite Corfu.</p>
+            <div class="flex items-center gap-5">
+                <span class="flex items-center gap-1.5 text-luxury-navy font-medium uppercase tracking-wider serif-sub">
+                    <i class="fa-solid fa-earth-europe text-luxury-gold text-[10px]"></i> Athens Time Zone (EEST)
+                </span>
+                <span class="text-[#EAE6DF]">|</span>
+                <span class="text-luxury-slate">Browser Timezone System Enabled</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CORE SCRIPT SYSTEM -->
+    <script>
+        // Official World Cup Groups & Teams Array
+        const initialGroups = [
+            {
+                groupName: "Group A",
+                teams: [
+                    { rank: 1, team: "Mexico", flag: "🇲🇽", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "South Africa", flag: "🇿🇦", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "South Korea", flag: "🇰🇷", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Czechia", flag: "🇨🇿", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group B",
+                teams: [
+                    { rank: 1, team: "Canada", flag: "🇨🇦", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Switzerland", flag: "🇨🇭", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Qatar", flag: "🇶🇦", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Bosnia & Herzegovina", flag: "🇧🇦", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group C",
+                teams: [
+                    { rank: 1, team: "Brazil", flag: "🇧🇷", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Morocco", flag: "🇲🇦", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Haiti", flag: "🇭🇹", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Scotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group D",
+                teams: [
+                    { rank: 1, team: "United States", flag: "🇺🇸", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Paraguay", flag: "🇵🇾", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Australia", flag: "🇦🇺", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Türkiye", flag: "🇹🇷", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group E",
+                teams: [
+                    { rank: 1, team: "Germany", flag: "🇩🇪", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Curaçao", flag: "🇨🇼", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Ivory Coast", flag: "🇨🇮", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Ecuador", flag: "🇪🇨", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group F",
+                teams: [
+                    { rank: 1, team: "Netherlands", flag: "🇳🇱", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Japan", flag: "🇯🇵", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Tunisia", flag: "🇹🇳", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Sweden", flag: "🇸🇪", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group G",
+                teams: [
+                    { rank: 1, team: "Belgium", flag: "🇧🇪", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Egypt", flag: "🇪🇬", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Iran", flag: "🇮🇷", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "New Zealand", flag: "🇳🇿", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group H",
+                teams: [
+                    { rank: 1, team: "Spain", flag: "🇪🇸", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Cape Verde", flag: "🇨🇻", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Saudi Arabia", flag: "🇸🇦", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Uruguay", flag: "🇺🇾", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group I",
+                teams: [
+                    { rank: 1, team: "France", flag: "🇫🇷", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Senegal", flag: "🇸🇳", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Norway", flag: "🇳🇴", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Iraq", flag: "🇮🇶", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group J",
+                teams: [
+                    { rank: 1, team: "Argentina", flag: "🇦🇷", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Algeria", flag: "🇩🇿", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Austria", flag: "🇦🇹", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Jordan", flag: "🇯🇴", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group K",
+                teams: [
+                    { rank: 1, team: "Portugal", flag: "🇵🇹", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Uzbekistan", flag: "🇺🇿", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Colombia", flag: "🇨🇴", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Congo DR", flag: "🇨🇩", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            },
+            {
+                groupName: "Group L",
+                teams: [
+                    { rank: 1, team: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 2, team: "Croatia", flag: "🇭🇷", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 3, team: "Ghana", flag: "🇬🇭", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
+                    { rank: 4, team: "Panama", flag: "🇵🇦", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
+                ]
+            }
+        ];
+
+        // Standard Match Database Listings (Adjusted perfectly to Athens Local Time, EEST)
+        const initialMatches = [
+            {
+                id: "m1",
+                homeTeam: "Mexico",
+                homeFlag: "🇲🇽",
+                awayTeam: "South Africa",
+                awayFlag: "🇿🇦",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 11, 2026",
+                matchTime: "22:00 EEST",
+                venue: "Estadio Azteca, Mexico City",
+                group: "Group A",
+                status: "Scheduled",
+                minute: null,
+                stream: "FOX / Telemundo"
+            },
+            {
+                id: "m2",
+                homeTeam: "South Korea",
+                homeFlag: "🇰🇷",
+                awayTeam: "Czechia",
+                awayFlag: "🇨🇿",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 12, 2026",
+                matchTime: "05:00 EEST",
+                venue: "Estadio Guadalajara, Guadalajara",
+                group: "Group A",
+                status: "Scheduled",
+                minute: null,
+                stream: "FS1 / Telemundo"
+            },
+            {
+                id: "m3",
+                homeTeam: "Canada",
+                homeFlag: "🇨🇦",
+                awayTeam: "Bosnia & Herzegovina",
+                awayFlag: "🇧🇦",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 12, 2026",
+                matchTime: "22:00 EEST",
+                venue: "Toronto Stadium, Toronto",
+                group: "Group B",
+                status: "Scheduled",
+                minute: null,
+                stream: "FOX / CTV"
+            },
+            {
+                id: "m4",
+                homeTeam: "United States",
+                homeFlag: "🇺🇸",
+                awayTeam: "Paraguay",
+                awayFlag: "🇵🇾",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 13, 2026",
+                matchTime: "04:00 EEST",
+                venue: "Los Angeles Stadium, Los Angeles",
+                group: "Group D",
+                status: "Scheduled",
+                minute: null,
+                stream: "FOX / FOX Sports"
+            },
+            {
+                id: "m5",
+                homeTeam: "Qatar",
+                homeFlag: "🇶🇦",
+                awayTeam: "Switzerland",
+                awayFlag: "🇨🇭",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 13, 2026",
+                matchTime: "22:00 EEST",
+                venue: "San Francisco Bay Area Stadium",
+                group: "Group B",
+                status: "Scheduled",
+                minute: null,
+                stream: "FS1"
+            },
+            {
+                id: "m6",
+                homeTeam: "Brazil",
+                homeFlag: "🇧🇷",
+                awayTeam: "Morocco",
+                awayFlag: "🇲🇦",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 14, 2026",
+                matchTime: "01:00 EEST",
+                venue: "New York New Jersey Stadium",
+                group: "Group C",
+                status: "Scheduled",
+                minute: null,
+                stream: "FOX / Telemundo"
+            },
+            {
+                id: "m7",
+                homeTeam: "Haiti",
+                homeFlag: "🇭🇹",
+                awayTeam: "Scotland",
+                awayFlag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 14, 2026",
+                matchTime: "04:00 EEST",
+                venue: "Boston Stadium, Boston",
+                group: "Group C",
+                status: "Scheduled",
+                minute: null,
+                stream: "FS1"
+            },
+            {
+                id: "m8",
+                homeTeam: "Australia",
+                homeFlag: "🇦🇺",
+                awayTeam: "Türkiye",
+                awayFlag: "🇹🇷",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 14, 2026",
+                matchTime: "07:00 EEST",
+                venue: "BC Place, Vancouver",
+                group: "Group D",
+                status: "Scheduled",
+                minute: null,
+                stream: "FOX / TSN"
+            },
+            {
+                id: "m9",
+                homeTeam: "Germany",
+                homeFlag: "🇩🇪",
+                awayTeam: "Curaçao",
+                awayFlag: "🇨🇼",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 14, 2026",
+                matchTime: "20:00 EEST",
+                venue: "Houston Stadium, Houston",
+                group: "Group E",
+                status: "Scheduled",
+                minute: null,
+                stream: "FOX"
+            },
+            {
+                id: "m10",
+                homeTeam: "Netherlands",
+                homeFlag: "🇳🇱",
+                awayTeam: "Japan",
+                awayFlag: "🇯🇵",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 14, 2026",
+                matchTime: "23:00 EEST",
+                venue: "Dallas Stadium, Dallas",
+                group: "Group F",
+                status: "Scheduled",
+                minute: null,
+                stream: "FS1"
+            },
+            {
+                id: "m11",
+                homeTeam: "Ivory Coast",
+                homeFlag: "🇨🇮",
+                awayTeam: "Ecuador",
+                awayFlag: "🇪🇨",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 15, 2026",
+                matchTime: "02:00 EEST",
+                venue: "Philadelphia Stadium, Philadelphia",
+                group: "Group E",
+                status: "Scheduled",
+                minute: null,
+                stream: "FS1"
+            },
+            {
+                id: "m12",
+                homeTeam: "Sweden",
+                homeFlag: "🇸🇪",
+                awayTeam: "Tunisia",
+                awayFlag: "🇹🇳",
+                homeScore: null,
+                awayScore: null,
+                matchDate: "June 15, 2026",
+                matchTime: "05:00 EEST",
+                venue: "Estadio Monterrey, Monterrey",
+                group: "Group F",
+                status: "Scheduled",
+                minute: null,
+                stream: "FOX"
+            }
+        ];
+
+        // Global Application Context 
+        let matches = JSON.parse(JSON.stringify(initialMatches));
+        let groups = JSON.parse(JSON.stringify(initialGroups));
+        let activeTab = 'tab-schedule';
+        let currentGroupFilter = 'all';
+        
+        // Setup variables on startup
+        window.onload = function() {
+            updateLiveClock();
+            setInterval(updateLiveClock, 1000);
+
+            // Populate Initial Tables & Grid Elements
+            renderMatches();
+            renderStandings();
+            setupCountdown();
+
+            // Run first background Live Match Synchronization
+            triggerAISync();
+        };
+
+        // Elegant Swiss Watch Chronometer Counter (Athens Time context)
+        function setupCountdown() {
+            const kickoffDate = new Date("June 11, 2026 22:00:00 GMT+0300").getTime();
+            
+            function updateCounter() {
+                const now = new Date().getTime();
+                const distance = kickoffDate - now;
+
+                if (distance < 0) {
+                    document.getElementById("countdown-grid").innerHTML = `
+                        <div class="col-span-4 bg-luxury-goldLight border border-luxury-gold text-luxury-navy font-bold p-3 rounded-lg text-center tracking-widest text-[11px] serif-sub">
+                            🏆 CHAMPIONSHIP IN CONTEST
+                        </div>
+                    `;
+                    document.getElementById("kickoff-desc").innerText = "Match schedule synchronizing in real time.";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("cnt-days").innerText = String(days).padStart(2, '0');
+                document.getElementById("cnt-hours").innerText = String(hours).padStart(2, '0');
+                document.getElementById("cnt-mins").innerText = String(minutes).padStart(2, '0');
+                document.getElementById("cnt-secs").innerText = String(seconds).padStart(2, '0');
+            }
+
+            updateCounter();
+            setInterval(updateCounter, 1000);
+        }
+
+        // Live Header Clock Logic (Forced directly to Athens, Greece EEST Timezone)
+        function updateLiveClock() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit', 
+                timeZone: 'Europe/Athens', 
+                timeZoneName: 'short' 
+            };
+            document.getElementById("header-date").innerText = now.toLocaleDateString('en-US', options);
+        }
+
+        // Tab Switch Engine
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-6 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 text-luxury-slate hover:text-luxury-navy hover:bg-luxury-canvas flex items-center gap-2";
+            });
+
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn px-6 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 bg-luxury-navy text-white flex items-center gap-2";
+            }
+            activeTab = tabId;
+        }
+
+        // High-fidelity image flag mapping with pristine aesthetic
+        function getFlagUrl(countryName) {
+            const codeMap = {
+                "Mexico": "mx", "South Africa": "za", "South Korea": "kr", "Czechia": "cz",
+                "Canada": "ca", "Bosnia & Herzegovina": "ba", "United States": "us", "Paraguay": "py",
+                "Qatar": "qa", "Switzerland": "ch", "Brazil": "br", "Morocco": "ma",
+                "Haiti": "ht", "Scotland": "gb-sct", "Australia": "au", "Türkiye": "tr",
+                "Germany": "de", "Curaçao": "cw", "Netherlands": "nl", "Japan": "jp",
+                "Ivory Coast": "ci", "Ecuador": "ec", "Sweden": "se", "Tunisia": "tn",
+                "Spain": "es", "Cape Verde": "cv", "Belgium": "be", "Egypt": "eg",
+                "Iran": "ir", "New Zealand": "nz", "Saudi Arabia": "sa", "Uruguay": "uy",
+                "France": "fr", "Senegal": "sn", "Norway": "no", "Iraq": "iq",
+                "Argentina": "ar", "Algeria": "dz", "Austria": "at", "Jordan": "jo",
+                "Portugal": "pt", "Uzbekistan": "uz", "Colombia": "co", "Congo DR": "cd",
+                "England": "gb-eng", "Croatia": "hr", "Ghana": "gh", "Panama": "pa"
+            };
+            const code = codeMap[countryName];
+            if (code) {
+                return `https://flagcdn.com/w160/${code}.png`;
+            }
+            return "";
+        }
+
+        // High-Fidelity Country Flag rendering system with elegant circular framing
+        function renderFlagShield(teamName, flagInput) {
+            let src = "";
+            
+            if (flagInput && typeof flagInput === 'string' && (flagInput.startsWith('http://') || flagInput.startsWith('https://'))) {
+                src = flagInput;
+            } else {
+                src = getFlagUrl(teamName);
+            }
+
+            const fallbackEmoji = getEmojiFlag(teamName);
+
+            return `
+                <div class="relative w-14 h-14 flex items-center justify-center rounded-full bg-[#FAF9F6] border-2 border-[#EAE6DF] shadow-inner overflow-hidden p-0.5 group-hover:scale-105 transition-transform duration-300">
+                    <img src="${src}" alt="${teamName}" onerror="this.onerror=null; this.src=''; this.outerHTML='&lt;span class=&quot;text-2xl filter drop-shadow&quot;&gt;${fallbackEmoji}&lt;/span&gt;';" class="w-full h-full object-cover rounded-full" />
+                </div>
+            `;
+        }
+
+        // High-Fidelity Small Flag rendering for the luxury Standing Board
+        function renderSmallFlagShield(teamName) {
+            const src = getFlagUrl(teamName);
+            const fallbackEmoji = getEmojiFlag(teamName);
+
+            return `
+                <div class="relative w-6 h-6 flex items-center justify-center rounded-full bg-[#FAF9F6] border border-[#EAE6DF] overflow-hidden p-0.5 shadow-sm">
+                    <img src="${src}" alt="${teamName}" onerror="this.onerror=null; this.src=''; this.outerHTML='&lt;span class=&quot;text-[11px]&quot;&gt;${fallbackEmoji}&lt;/span&gt;';" class="w-full h-full object-cover rounded-full" />
+                </div>
+            `;
+        }
+
+        // Generate Match cards
+        function renderMatches() {
+            const container = document.getElementById("match-cards-container");
+            container.innerHTML = "";
+
+            const filtered = matches.filter(m => {
+                const search = document.getElementById("match-search").value.toLowerCase();
+                const matchSearch = m.homeTeam.toLowerCase().includes(search) || 
+                                    m.awayTeam.toLowerCase().includes(search) || 
+                                    m.venue.toLowerCase().includes(search) || 
+                                    m.group.toLowerCase().includes(search);
+                
+                if (currentGroupFilter === 'all') return matchSearch;
+                
+                const groupLetter = m.group.charAt(m.group.length - 1).toLowerCase();
+                if (currentGroupFilter === 'ad') return matchSearch && ['a', 'b', 'c', 'd'].includes(groupLetter);
+                if (currentGroupFilter === 'eh') return matchSearch && ['e', 'f', 'g', 'h'].includes(groupLetter);
+                if (currentGroupFilter === 'il') return matchSearch && ['i', 'j', 'k', 'l'].includes(groupLetter);
+                
+                return matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-16 text-center text-luxury-slate">
+                        <i class="fa-regular fa-folder-open text-2xl mb-2 block text-luxury-gold"></i>
+                        <p class="text-xs tracking-wider uppercase font-medium serif-sub">No matches correspond with selection</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(m => {
+                let statusBadge = "";
+                let scoreDisplay = "";
+
+                if (m.status === "Scheduled") {
+                    statusBadge = `<span class="bg-luxury-canvas text-luxury-slate border border-[#EAE6DF] text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Scheduled</span>`;
+                    scoreDisplay = `
+                        <div class="flex items-center gap-1">
+                            <span class="text-[10px] bg-luxury-canvas border border-[#EAE6DF] text-luxury-slate px-2 py-1 rounded font-bold uppercase tracking-widest font-mono">VS</span>
+                        </div>
+                    `;
+                } else if (m.status === "Live") {
+                    statusBadge = `<span class="bg-red-500 text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest pulse-soft flex items-center gap-1.5"><i class="fa-solid fa-circle text-[6px]"></i> LIVE ${m.minute || "1'"}</span>`;
+                    scoreDisplay = `
+                        <div class="flex items-center gap-4">
+                            <span class="text-2xl font-light text-luxury-emerald font-mono">${m.homeScore}</span>
+                            <span class="text-xs text-luxury-gold">—</span>
+                            <span class="text-2xl font-light text-luxury-emerald font-mono">${m.awayScore}</span>
+                        </div>
+                    `;
+                } else if (m.status === "FT") {
+                    statusBadge = `<span class="bg-luxury-goldLight text-luxury-gold border border-luxury-gold/20 text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">FT</span>`;
+                    scoreDisplay = `
+                        <div class="flex items-center gap-4">
+                            <span class="text-2xl font-normal text-luxury-navy font-mono">${m.homeScore}</span>
+                            <span class="text-xs text-luxury-gold">—</span>
+                            <span class="text-2xl font-normal text-luxury-navy font-mono">${m.awayScore}</span>
+                        </div>
+                    `;
+                }
+
+                const cardHtml = `
+                    <div class="luxury-card bg-white p-5 rounded-xl flex flex-col justify-between gap-5 border border-[#EAE6DF] transition-all relative overflow-hidden group">
+                        
+                        <!-- Top status line -->
+                        <div class="flex items-center justify-between gap-2 border-b border-[#EAE6DF]/60 pb-3">
+                            <span class="text-[10px] font-extrabold text-luxury-gold uppercase tracking-widest serif-sub">${m.group}</span>
+                            ${statusBadge}
+                        </div>
+
+                        <!-- Team Matchup Area (rendering images rather than raw text) -->
+                        <div class="flex items-center justify-between gap-2 py-1">
+                            <!-- Home Team -->
+                            <div class="flex flex-col items-center text-center gap-2 w-[38%]">
+                                ${renderFlagShield(m.homeTeam, m.homeFlag)}
+                                <span class="text-xs font-bold text-luxury-navy tracking-tight truncate w-full">${m.homeTeam}</span>
+                            </div>
+
+                            <!-- Score Dial -->
+                            <div class="flex flex-col items-center justify-center gap-1 w-[24%]">
+                                ${scoreDisplay}
+                                <span class="text-[9px] text-luxury-slate tracking-widest uppercase font-mono mt-1">${m.matchTime}</span>
+                            </div>
+
+                            <!-- Away Team -->
+                            <div class="flex flex-col items-center text-center gap-2 w-[38%]">
+                                ${renderFlagShield(m.awayTeam, m.awayFlag)}
+                                <span class="text-xs font-bold text-luxury-navy tracking-tight truncate w-full">${m.awayTeam}</span>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Metadata Block -->
+                        <div class="bg-luxury-canvas p-3 rounded-lg border border-[#EAE6DF]/60 flex flex-col gap-1 text-[10px] text-luxury-slate">
+                            <div class="flex items-center justify-between">
+                                <span class="truncate font-light"><i class="fa-solid fa-location-dot text-luxury-gold mr-1 text-[9px]"></i> ${m.venue}</span>
+                            </div>
+                            <div class="flex items-center justify-between border-t border-[#EAE6DF]/40 pt-1.5 mt-1.5 text-[9px] text-luxury-slate">
+                                <span><i class="fa-regular fa-calendar-check text-luxury-gold mr-1"></i> ${m.matchDate}</span>
+                                <span class="text-luxury-navy font-medium"><i class="fa-solid fa-circle-play text-[8px] mr-1"></i> ${m.stream}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        // Render Group Standings Tables
+        function renderStandings() {
+            const container = document.getElementById("groups-container");
+            container.innerHTML = "";
+
+            groups.forEach(g => {
+                let rowsHtml = "";
+                
+                // Tiebreaker sorting standard
+                const sortedTeams = [...g.teams].sort((a, b) => {
+                    if (b.points !== a.points) return b.points - a.points;
+                    const diffA = a.goalsFor - a.goalsAgainst;
+                    const diffB = b.goalsFor - b.goalsAgainst;
+                    if (diffB !== diffA) return diffB - diffA;
+                    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
+                    return a.team.localeCompare(b.team);
+                });
+
+                sortedTeams.forEach((t, idx) => {
+                    const diff = t.goalsFor - t.goalsAgainst;
+                    const formattedDiff = diff > 0 ? `+${diff}` : diff;
+                    
+                    const rankClass = idx < 2 ? 'text-luxury-gold font-extrabold' : 'text-luxury-slate';
+                    const bgClass = idx === 0 ? 'bg-luxury-goldLight/10' : idx === 1 ? 'bg-luxury-goldLight/5' : '';
+
+                    rowsHtml += `
+                        <tr class="hover:bg-luxury-canvas border-b border-[#EAE6DF]/40 text-[11px] transition duration-150 ${bgClass}">
+                            <td class="px-3.5 py-3 font-bold text-center ${rankClass}">${idx + 1}</td>
+                            <td class="px-3.5 py-3 font-medium text-luxury-navy flex items-center gap-2.5">
+                                ${renderSmallFlagShield(t.team)}
+                                <span class="truncate max-w-[95px] font-semibold">${t.team}</span>
+                            </td>
+                            <td class="px-2 py-3 text-center font-medium font-mono">${t.played}</td>
+                            <td class="px-2 py-3 text-center font-medium font-mono text-luxury-slate">${t.won}</td>
+                            <td class="px-2 py-3 text-center font-medium font-mono text-luxury-slate">${t.drawn}</td>
+                            <td class="px-2 py-3 text-center font-medium font-mono text-luxury-slate">${t.lost}</td>
+                            <td class="px-2 py-3 text-center font-bold font-mono text-luxury-slate">${formattedDiff}</td>
+                            <td class="px-3.5 py-3 text-center font-bold font-mono text-luxury-navy">${t.points}</td>
+                        </tr>
+                    `;
+                });
+
+                const groupCard = `
+                    <div class="bg-white rounded-xl border border-[#EAE6DF] overflow-hidden shadow-sm hover:border-luxury-gold/50 transition duration-300">
+                        <div class="bg-gradient-to-r from-luxury-canvas to-white px-4.5 py-3 border-b border-[#EAE6DF] flex items-center justify-between">
+                            <h4 class="text-xs font-bold uppercase text-luxury-navy tracking-widest serif-sub">${g.groupName}</h4>
+                            <span class="text-[9px] text-luxury-gold font-bold uppercase tracking-widest serif-sub">Qualifiers</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-luxury-canvas text-[9px] uppercase tracking-widest text-luxury-slate border-b border-[#EAE6DF] serif-sub">
+                                        <th class="px-3.5 py-2 text-center">Pos</th>
+                                        <th class="px-3.5 py-2">Team</th>
+                                        <th class="px-2 py-2 text-center">P</th>
+                                        <th class="px-2 py-2 text-center">W</th>
+                                        <th class="px-2 py-2 text-center">D</th>
+                                        <th class="px-2 py-2 text-center">L</th>
+                                        <th class="px-2 py-2 text-center">GD</th>
+                                        <th class="px-3.5 py-2 text-center">Pts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${rowsHtml}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += groupCard;
+            });
+        }
+
+        // Complete Standings Calculation Logic
+        function recalculateStandings() {
+            groups.forEach(g => {
+                g.teams.forEach(t => {
+                    t.played = 0;
+                    t.won = 0;
+                    t.drawn = 0;
+                    t.lost = 0;
+                    t.goalsFor = 0;
+                    t.goalsAgainst = 0;
+                    t.points = 0;
+                });
+            });
+
+            matches.forEach(m => {
+                if (m.status === "FT" || m.status === "Live") {
+                    const hs = parseInt(m.homeScore);
+                    const as = parseInt(m.awayScore);
+
+                    if (!isNaN(hs) && !isNaN(as)) {
+                        const groupObj = groups.find(g => g.groupName === m.group);
+                        if (groupObj) {
+                            const homeTeam = groupObj.teams.find(t => t.team === m.homeTeam);
+                            const awayTeam = groupObj.teams.find(t => t.team === m.awayTeam);
+
+                            if (homeTeam && awayTeam) {
+                                homeTeam.played += 1;
+                                awayTeam.played += 1;
+
+                                homeTeam.goalsFor += hs;
+                                homeTeam.goalsAgainst += as;
+
+                                awayTeam.goalsFor += as;
+                                awayTeam.goalsAgainst += hs;
+
+                                if (hs > as) {
+                                    homeTeam.won += 1;
+                                    homeTeam.points += 3;
+                                    awayTeam.lost += 1;
+                                } else if (hs < as) {
+                                    awayTeam.won += 1;
+                                    awayTeam.points += 3;
+                                    homeTeam.lost += 1;
+                                } else {
+                                    homeTeam.drawn += 1;
+                                    homeTeam.points += 1;
+                                    awayTeam.drawn += 1;
+                                    awayTeam.points += 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function filterMatches() {
+            renderMatches();
+        }
+
+        // Spacing parameters fixed to standard robust TailWind targets
+        function filterGroupRange(range) {
+            currentGroupFilter = range;
+            
+            document.querySelectorAll('.match-filter-btn').forEach(btn => {
+                btn.className = "match-filter-btn px-5 py-2.5 rounded-lg text-[10px] uppercase tracking-widest font-bold text-luxury-slate bg-luxury-canvas border border-[#EAE6DF] hover:text-luxury-navy transition";
+            });
+
+            const activeBtn = document.getElementById(`filter-${range}`);
+            if (activeBtn) {
+                activeBtn.className = "match-filter-btn px-5 py-2.5 rounded-lg text-[10px] uppercase tracking-widest font-bold bg-luxury-navy text-white border border-luxury-navy transition";
+            }
+            
+            renderMatches();
+        }
+
+        // ==========================================
+        //  CLIENT-SIDE LIVE SYNC CONTROLLER
+        // ==========================================
+
+        async function triggerAISync() {
+            const badge = document.getElementById("api-status-badge");
+            const dot = document.getElementById("status-indicator-dot");
+            const apiStatusTextEl = document.getElementById("api-status-text");
+            
+            badge.className = "flex items-center gap-2 bg-luxury-goldLight border border-luxury-gold/50 px-3 py-1.5 rounded-full text-xs text-luxury-navy shadow-sm";
+            dot.className = "h-2 w-2 rounded-full bg-luxury-gold animate-spin";
+            apiStatusTextEl.innerText = "Syncing live schedules...";
+
+            const userQuery = "Today is Tuesday, June 9, 2026. Retrieve the active live status, live scores, results, and upcoming schedules of the 2026 FIFA World Cup. Provide real-time data if games are currently live or have finished. Return the information matching the requested JSON schema.";
+            
+            const payload = {
+                "contents": [{ "parts": [{ "text": userQuery }] }],
+                "systemInstruction": {
+                    "parts": [{ "text": "You are the central live data feeder for the FIFA World Cup 2026. Search Google for real-time live scores, upcoming matches, group standings, and latest tournament news. You must output valid JSON complying strictly with the requested schema." }]
+                },
+                "tools": [{ "google_search": {} }],
+                "generationConfig": {
+                    "responseMimeType": "application/json",
+                    "responseSchema": {
+                        "type": "OBJECT",
+                        "properties": {
+                            "tournamentStatus": { "type": "STRING" },
+                            "matches": {
+                                "type": "ARRAY",
+                                "items": {
+                                    "type": "OBJECT",
+                                    "properties": {
+                                        "id": { "type": "STRING" },
+                                        "homeTeam": { "type": "STRING" },
+                                        "homeFlag": { "type": "STRING" },
+                                        "awayTeam": { "type": "STRING" },
+                                        "awayFlag": { "type": "STRING" },
+                                        "homeScore": { "type": "STRING" },
+                                        "awayScore": { "type": "STRING" },
+                                        "matchDate": { "type": "STRING" },
+                                        "matchTime": { "type": "STRING" },
+                                        "venue": { "type": "STRING" },
+                                        "group": { "type": "STRING" },
+                                        "status": { "type": "STRING" }, // "Scheduled", "Live", "FT"
+                                        "minute": { "type": "STRING" },
+                                        "stream": { "type": "STRING" }
+                                    },
+                                    "required": ["homeTeam", "awayTeam", "matchDate", "status"]
+                                }
+                            }
+                        },
+                        "required": ["tournamentStatus", "matches"]
+                    }
+                }
+            };
+
+            try {
+                const result = await callGeminiWithBackoff(payload);
+                
+                if (result && result.candidates?.[0]?.content?.parts?.[0]?.text) {
+                    const parsedData = JSON.parse(result.candidates[0].content.parts[0].text);
+                    
+                    if (parsedData.matches && parsedData.matches.length > 0) {
+                        matches = parsedData.matches.map((apiMatch, index) => {
+                            return {
+                                id: apiMatch.id || `api-${index}`,
+                                homeTeam: apiMatch.homeTeam,
+                                homeFlag: apiMatch.homeFlag || getFlagUrl(apiMatch.homeTeam),
+                                awayTeam: apiMatch.awayTeam,
+                                awayFlag: apiMatch.awayFlag || getFlagUrl(apiMatch.awayTeam),
+                                homeScore: apiMatch.homeScore === "" || apiMatch.homeScore === null ? null : parseInt(apiMatch.homeScore),
+                                awayScore: apiMatch.awayScore === "" || apiMatch.awayScore === null ? null : parseInt(apiMatch.awayScore),
+                                matchDate: apiMatch.matchDate,
+                                matchTime: apiMatch.matchTime || "TBD",
+                                venue: apiMatch.venue || "Championship Stadium",
+                                group: apiMatch.group || "Group Stage",
+                                status: apiMatch.status || "Scheduled",
+                                minute: apiMatch.minute || null,
+                                stream: apiMatch.stream || "FOX Sports"
+                            };
+                        });
+
+                        recalculateStandings();
+                        renderMatches();
+                        renderStandings();
+                    }
+
+                    badge.className = "flex items-center gap-2 bg-luxury-canvas border border-[#EAE6DF] px-3 py-1.5 rounded-full text-xs text-luxury-emerald";
+                    dot.className = "h-2 w-2 rounded-full bg-luxury-emerald pulse-soft";
+                    apiStatusTextEl.innerText = "Schedules synchronized";
+                } else {
+                    throw new Error("Empty query return");
+                }
+            } catch (err) {
+                console.error("Using secure client offline fallback database.", err);
+                badge.className = "flex items-center gap-2 bg-luxury-canvas border border-[#EAE6DF] px-3 py-1.5 rounded-full text-xs text-luxury-slate";
+                dot.className = "h-2 w-2 rounded-full bg-luxury-gold";
+                apiStatusTextEl.innerText = "Offline mode - preserved schedules";
+                
+                recalculateStandings();
+                renderMatches();
+                renderStandings();
+            }
+        }
+
+        async function callGeminiWithBackoff(payload, maxRetries = 5) {
+            const apiKey = ""; 
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            
+            let delay = 1000;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const res = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!res.ok) throw new Error(`Status: ${res.status}`);
+                    return await res.json();
+                } catch (err) {
+                    if (i === maxRetries - 1) throw err;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        function getEmojiFlag(countryName) {
+            const mapping = {
+                "Mexico": "🇲🇽", "South Africa": "🇿🇦", "South Korea": "🇰🇷", "Czechia": "🇨🇿",
+                "Canada": "🇨🇦", "Bosnia & Herzegovina": "🇧🇦", "United States": "🇺🇸", "Paraguay": "🇵🇾",
+                "Qatar": "🇶🇦", "Switzerland": "🇨🇭", "Brazil": "🇧🇷", "Morocco": "🇲🇦",
+                "Haiti": "🇭🇹", "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "Australia": "🇦🇺", "Türkiye": "🇹🇷",
+                "Germany": "🇩🇪", "Curaçao": "🇨🇼", "Netherlands": "🇳🇱", "Japan": "🇯🇵",
+                "Ivory Coast": "🇨🇮", "Ecuador": "🇪🇨", "Sweden": "🇸🇪", "Tunisia": "🇹🇳",
+                "Spain": "🇪🇸", "Cape Verde": "🇨🇻", "Belgium": "🇧🇪", "Egypt": "🇪🇬",
+                "Iran": "🇮🇷", "New Zealand": "🇳🇿", "Saudi Arabia": "🇸🇦", "Uruguay": "🇺🇾",
+                "France": "🇫🇷", "Senegal": "🇸🇳", "Norway": "🇳🇴", "Iraq": "🇮🇶",
+                "Argentina": "🇦🇷", "Algeria": "🇩🇿", "Austria": "🇦🇹", "Jordan": "🇯🇴",
+                "Portugal": "🇵🇹", "Uzbekistan": "🇺🇿", "Colombia": "🇨🇴", "Congo DR": "🇨🇩",
+                "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Croatia": "🇭🇷", "Ghana": "🇬🇭", "Panama": "🇵🇦"
+            };
+            return mapping[countryName] || "⚽";
+        }
+    </script>
+</body>
+</html>
