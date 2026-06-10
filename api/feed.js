@@ -26,6 +26,9 @@ const NAME_ALIASES = {
 };
 const canon = (name) => NAME_ALIASES[name] || name;
 
+const { resolveChannel } = require("./lib/ert-match");
+const { buildProgrammes } = require("./ert-channels");
+
 const ATHENS = "Europe/Athens";
 const fmtDate = (iso) =>
   new Date(iso).toLocaleDateString("en-US", {
@@ -95,7 +98,6 @@ async function buildFeed() {
     const state = e.status?.type?.state || "pre";
     const venueName = comp.venue?.fullName || "Championship Stadium";
     const city = comp.venue?.address?.city || "";
-    const stream = (comp.broadcasts || []).flatMap((b) => b.names || []).slice(0, 2).join(" / ");
 
     matches.push({
       id: e.id,
@@ -111,8 +113,23 @@ async function buildFeed() {
       group: teamGroup[home] || teamGroup[away],
       status: STATE[state] || "Scheduled",
       minute: state === "in" ? (e.status?.type?.shortDetail || comp.status?.displayClock || null) : null,
-      stream: stream || "—",
+      stream: "ΕΡΤ",       // placeholder — overwritten below
+      kickoffISO: e.date,   // raw UTC ISO, used for ERT channel matching
     });
+  }
+
+  // Resolve each match to its specific ERT channel (best-effort; falls back to "ΕΡΤ").
+  try {
+    const programmes = await buildProgrammes();
+    for (const m of matches) {
+      m.stream = resolveChannel(
+        { kickoffISO: m.kickoffISO, homeTeam: m.homeTeam, awayTeam: m.awayTeam },
+        programmes
+      );
+      delete m.kickoffISO; // internal field — strip before serving
+    }
+  } catch {
+    for (const m of matches) { delete m.kickoffISO; } // still clean up on error
   }
 
   const live = matches.some((m) => m.status === "Live");
