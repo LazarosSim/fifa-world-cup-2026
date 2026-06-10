@@ -108,10 +108,10 @@
             <!-- Brand & Atlantica Editorial Identity -->
             <div class="flex flex-col sm:flex-row sm:items-center gap-5">
                 <div>
-                    <p class="text-[10px] text-luxury-slate font-semibold uppercase tracking-[0.3em] mb-1">Corfu, Greece</p>
                     <h1 class="text-2xl md:text-[34px] leading-none font-normal text-luxury-navy uppercase" style="font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 0.08em;">
                         Atlantica Mediterraneo Resort
                     </h1>
+                    <p class="text-[10px] text-luxury-slate font-semibold uppercase tracking-[0.3em] mt-1">Corfu, Greece</p>
                 </div>
                 <div class="h-10 w-px bg-[#DEDCEA] hidden sm:block"></div>
                 <div>
@@ -362,7 +362,7 @@
                 group: "Group A",
                 status: "Scheduled",
                 minute: null,
-                stream: "FOX / Telemundo"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m2",
@@ -378,7 +378,7 @@
                 group: "Group A",
                 status: "Scheduled",
                 minute: null,
-                stream: "FS1 / Telemundo"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m3",
@@ -394,7 +394,7 @@
                 group: "Group B",
                 status: "Scheduled",
                 minute: null,
-                stream: "FOX / CTV"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m4",
@@ -410,7 +410,7 @@
                 group: "Group D",
                 status: "Scheduled",
                 minute: null,
-                stream: "FOX / FOX Sports"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m5",
@@ -426,7 +426,7 @@
                 group: "Group B",
                 status: "Scheduled",
                 minute: null,
-                stream: "FS1"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m6",
@@ -442,7 +442,7 @@
                 group: "Group C",
                 status: "Scheduled",
                 minute: null,
-                stream: "FOX / Telemundo"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m7",
@@ -458,7 +458,7 @@
                 group: "Group C",
                 status: "Scheduled",
                 minute: null,
-                stream: "FS1"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m8",
@@ -474,7 +474,7 @@
                 group: "Group D",
                 status: "Scheduled",
                 minute: null,
-                stream: "FOX / TSN"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m9",
@@ -490,7 +490,7 @@
                 group: "Group E",
                 status: "Scheduled",
                 minute: null,
-                stream: "FOX"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m10",
@@ -506,7 +506,7 @@
                 group: "Group F",
                 status: "Scheduled",
                 minute: null,
-                stream: "FS1"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m11",
@@ -522,7 +522,7 @@
                 group: "Group E",
                 status: "Scheduled",
                 minute: null,
-                stream: "FS1"
+                stream: "ΕΡΤ"
             },
             {
                 id: "m12",
@@ -538,7 +538,7 @@
                 group: "Group F",
                 status: "Scheduled",
                 minute: null,
-                stream: "FOX"
+                stream: "ΕΡΤ"
             }
         ];
 
@@ -714,15 +714,27 @@
                 return;
             }
 
+            const europeanTeams = new Set([
+                "Albania","Andorra","Austria","Belarus","Belgium","Bosnia & Herzegovina","Bulgaria",
+                "Croatia","Cyprus","Czechia","Denmark","England","Estonia","Faroe Islands","Finland",
+                "France","Georgia","Germany","Gibraltar","Greece","Hungary","Iceland","Republic of Ireland",
+                "Italy","Kosovo","Latvia","Liechtenstein","Lithuania","Luxembourg","Malta","Moldova",
+                "Montenegro","Netherlands","North Macedonia","Northern Ireland","Norway","Poland","Portugal",
+                "Romania","Russia","San Marino","Scotland","Serbia","Slovakia","Slovenia","Spain","Sweden",
+                "Switzerland","Türkiye","Turkey","Ukraine","Wales"
+            ]);
+
             filtered.forEach(m => {
                 let statusBadge = "";
                 let scoreDisplay = "";
 
+                const hasEuropean = europeanTeams.has(m.homeTeam) || europeanTeams.has(m.awayTeam);
+
                 if (m.status === "Scheduled") {
-                    statusBadge = `<span class="bg-luxury-canvas text-luxury-slate border-2 border-[#DEDCEA] text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Scheduled</span>`;
+                    statusBadge = ``;
                     scoreDisplay = `
                         <div class="flex items-center gap-1">
-                            <span class="text-[10px] bg-luxury-canvas border-2 border-[#DEDCEA] text-luxury-slate px-2 py-1 rounded font-bold uppercase tracking-widest font-mono">VS</span>
+                            <span class="text-[10px] text-luxury-slate font-bold uppercase tracking-widest font-mono">VS</span>
                         </div>
                     `;
                 } else if (m.status === "Live") {
@@ -746,12 +758,12 @@
                 }
 
                 const cardHtml = `
-                    <div class="luxury-card bg-white p-5 rounded-xl flex flex-col justify-between gap-5 border-2 border-[#DEDCEA] transition-all relative overflow-hidden group">
-                        
+                    <div class="luxury-card p-5 rounded-xl flex flex-col justify-between gap-5 border-2 transition-all relative overflow-hidden group ${hasEuropean ? 'bg-[#FBFAFF] border-luxury-gold' : 'bg-white border-[#DEDCEA]'}">
+
                         <!-- Top status line -->
                         <div class="flex items-center justify-between gap-2 border-b border-[#E5E4EC]/60 pb-3">
-                            <span class="text-[10px] font-extrabold text-luxury-gold uppercase tracking-widest serif-sub">${m.group}</span>
-                            ${statusBadge}
+                            <span class="text-[12px] font-extrabold text-luxury-gold uppercase tracking-widest serif-sub">${m.group}</span>
+                            ${hasEuropean ? `<span class="text-3xl leading-none" title="European team">🌭</span>` : statusBadge}
                         </div>
 
                         <!-- Team Matchup Area (rendering images rather than raw text) -->
@@ -765,7 +777,7 @@
                             <!-- Score Dial -->
                             <div class="flex flex-col items-center justify-center gap-1 w-[24%]">
                                 ${scoreDisplay}
-                                <span class="text-[9px] text-luxury-slate tracking-widest uppercase font-mono mt-1">${m.matchTime}</span>
+                                <span class="text-[11px] text-luxury-slate tracking-widest uppercase font-mono mt-1">${m.matchTime}</span>
                             </div>
 
                             <!-- Away Team -->
@@ -776,11 +788,11 @@
                         </div>
 
                         <!-- Bottom Metadata Block -->
-                        <div class="bg-luxury-canvas p-3 rounded-lg border-2 border-[#DEDCEA]/60 flex flex-col gap-1 text-[10px] text-luxury-slate">
+                        <div class="bg-luxury-canvas p-3 rounded-lg border-2 border-[#DEDCEA]/60 flex flex-col gap-1 text-[11px] text-luxury-slate">
                             <div class="flex items-center justify-between">
-                                <span class="truncate font-light"><i class="fa-solid fa-location-dot text-luxury-gold mr-1 text-[9px]"></i> ${m.venue}</span>
+                                <span class="truncate font-light"><i class="fa-solid fa-location-dot text-luxury-gold mr-1 text-[11px]"></i> ${m.venue}</span>
                             </div>
-                            <div class="flex items-center justify-between border-t border-[#E5E4EC]/40 pt-1.5 mt-1.5 text-[9px] text-luxury-slate">
+                            <div class="flex items-center justify-between border-t border-[#E5E4EC]/40 pt-1.5 mt-1.5 text-[11px] text-luxury-slate">
                                 <span><i class="fa-regular fa-calendar-check text-luxury-gold mr-1"></i> ${m.matchDate}</span>
                                 <span class="text-luxury-navy font-medium"><i class="fa-solid fa-circle-play text-[8px] mr-1"></i> ${m.stream}</span>
                             </div>
