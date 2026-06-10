@@ -1,0 +1,7 @@
+{
+  "name": "fifa-world-cup-2026",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  }
+}
